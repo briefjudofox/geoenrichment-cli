@@ -2,8 +2,6 @@ package com.esri.service;
 
 import com.esri.client.local.GPServiceType;
 import com.esri.client.local.LocalGeoprocessingService;
-import com.esri.client.local.LocalServiceStartCompleteListener;
-import com.esri.client.local.LocalServiceStopCompleteListener;
 import com.esri.core.tasks.ags.geoprocessing.GPServiceInfo;
 import com.esri.core.tasks.ags.geoprocessing.GPTaskInfo;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,17 +15,16 @@ public class GPTaskInfoService {
 
     private LocalGeoprocessingService localGpService;
 
-    public void startService(LocalServiceStartCompleteListener startCompleteListener) {
+    public void startService() {
         System.out.println("Starting Service...");
         localGpService = new LocalGeoprocessingService(gpkPath);
         localGpService.setServiceType(GPServiceType.EXECUTE.EXECUTE);
-        localGpService.addLocalServiceStartCompleteListener(startCompleteListener);
-        localGpService.startAsync();
+        localGpService.start();
     }
 
-    public void stopService(LocalServiceStopCompleteListener stopCompleteListener){
-        localGpService.addLocalServiceStopCompleteListener(stopCompleteListener);
-        localGpService.stopAsync();
+    public void stopService(){
+        System.out.println("Stopping Service...");
+        localGpService.stop();
     }
 
     public String[] getGPTasks() {
